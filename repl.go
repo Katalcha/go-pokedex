@@ -7,14 +7,14 @@ import (
 	"strings"
 )
 
-type cliCommand struct {
+type pokedexCommand struct {
 	name        string
 	description string
 	callback    func() error
 }
 
-func getCommands() map[string]cliCommand {
-	return map[string]cliCommand{
+func getCommands() map[string]pokedexCommand {
+	commands := map[string]pokedexCommand{
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
@@ -26,12 +26,13 @@ func getCommands() map[string]cliCommand {
 			callback:    commandExit,
 		},
 	}
+	return commands
 }
 
-func cleanUserInput(text string) []string {
-	output := strings.ToLower(text)
-	words := strings.Fields(output)
-	return words
+func cleanUserInput(userInput string) []string {
+	lowered := strings.ToLower(userInput)
+	loweredWords := strings.Fields(lowered)
+	return loweredWords
 }
 
 func loadPokedex() {

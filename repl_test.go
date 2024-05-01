@@ -32,7 +32,7 @@ func TestCleanUserInput(test *testing.T) {
 	for _, testCase := range testCases {
 		actual := cleanUserInput(testCase.input)
 		if len(actual) != len(testCase.expected) {
-			test.Errorf("lengths don't match: '%v' vs '%v'", actual, testCase.expected)
+			test.Errorf("lengths don't match: '%v' <=> '%v'", actual, testCase.expected)
 			continue
 		}
 		for i := range actual {
