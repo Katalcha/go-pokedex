@@ -25,6 +25,16 @@ func getCommands() map[string]pokedexCommand {
 			description: "Exit the pokedex",
 			callback:    commandExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Displays the names of location areas in the Pokemon world.",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "map back",
+			description: "Desplays the names of location areas in the Pokemon world in reverse.",
+			callback:    commandMapb,
+		},
 	}
 	return commands
 }
@@ -40,7 +50,6 @@ func loadPokedex() {
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
-
 		words := cleanUserInput(reader.Text())
 		if len(words) == 0 {
 			continue
