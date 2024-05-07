@@ -7,7 +7,7 @@ import (
 
 func commandMapb(cfg *config) error {
 	if cfg.previousLocationsURL == nil {
-		return errors.New("you are on the first page.")
+		return errors.New("you are on the first page")
 	}
 
 	locationRespone, err := cfg.pokeApiClient.ListLocations(cfg.previousLocationsURL)
