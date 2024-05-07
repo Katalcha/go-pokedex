@@ -5,12 +5,20 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/Katalcha/go-pokedex/internal/pokeApi"
 )
+
+type config struct {
+	pokeApiClient        pokeApi.Client
+	nextLocationsURL     *string
+	previousLocationsURL *string
+}
 
 type pokedexCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]pokedexCommand {
@@ -20,20 +28,20 @@ func getCommands() map[string]pokedexCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
+		"map": {
+			name:        "map",
+			description: "Displays the next page of locations",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays the previous page of locations",
+			callback:    commandMapb,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the pokedex",
 			callback:    commandExit,
-		},
-		"map": {
-			name:        "map",
-			description: "Displays the names of location areas in the Pokemon world.",
-			callback:    commandMap,
-		},
-		"mapb": {
-			name:        "map back",
-			description: "Desplays the names of location areas in the Pokemon world in reverse.",
-			callback:    commandMapb,
 		},
 	}
 	return commands
@@ -45,20 +53,24 @@ func cleanUserInput(userInput string) []string {
 	return loweredWords
 }
 
-func loadPokedex() {
+func loadPokedex(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
+
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
+
 		words := cleanUserInput(reader.Text())
+
 		if len(words) == 0 {
 			continue
 		}
 
 		commandName := words[0]
+
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
