@@ -18,7 +18,7 @@ type config struct {
 type pokedexCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]pokedexCommand {
@@ -27,6 +27,11 @@ func getCommands() map[string]pokedexCommand {
 			name:        "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Searches <location_name> for Pokemon",
+			callback:    commandExplore,
 		},
 		"map": {
 			name:        "map",

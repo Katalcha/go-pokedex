@@ -5,13 +5,12 @@ import (
 	"fmt"
 )
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, args ...string) error {
 	if cfg.previousLocationsURL == nil {
 		return errors.New("you are on the first page")
 	}
 
 	locationRespone, err := cfg.pokeApiClient.ListLocations(cfg.previousLocationsURL)
-
 	if err != nil {
 		return err
 	}
