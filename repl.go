@@ -66,16 +66,19 @@ func loadPokedex(cfg *config) {
 		reader.Scan()
 
 		words := cleanUserInput(reader.Text())
-
 		if len(words) == 0 {
 			continue
 		}
 
 		commandName := words[0]
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
 
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback(cfg)
+			err := command.callback(cfg, args...)
 			if err != nil {
 				fmt.Println(err)
 			}
