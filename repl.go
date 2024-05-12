@@ -6,67 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Katalcha/go-pokedex/internal/pokeApi"
+	"github.com/Katalcha/go-pokedex/internal/commands"
 )
-
-type config struct {
-	pokeApiClient        pokeApi.Client
-	nextLocationsURL     *string
-	previousLocationsURL *string
-	caughtPokemon        map[string]pokeApi.Pokemon
-}
-
-type pokedexCommand struct {
-	name        string
-	description string
-	callback    func(*config, ...string) error
-}
-
-func getCommands() map[string]pokedexCommand {
-	commands := map[string]pokedexCommand{
-		"help": {
-			name:        "help",
-			description: "Displays a help message",
-			callback:    commandHelp,
-		},
-		"catch": {
-			name:        "catch <pokemon_name>",
-			description: "Attempt to catch a pokemon",
-			callback:    commandCatch,
-		},
-		"inspect": {
-			name:        "inspect <pokemon_name>",
-			description: "View details about a caught Pokemon",
-			callback:    commandInspect,
-		},
-		"explore": {
-			name:        "explore <location_name>",
-			description: "Searches a location for Pokemon",
-			callback:    commandExplore,
-		},
-		"map": {
-			name:        "map",
-			description: "Displays the next page of locations",
-			callback:    commandMap,
-		},
-		"mapb": {
-			name:        "mapb",
-			description: "Displays the previous page of locations",
-			callback:    commandMapb,
-		},
-		"pokedex": {
-			name:        "pokedex",
-			description: "See all the pokemon you've caught",
-			callback:    commandPokedex,
-		},
-		"exit": {
-			name:        "exit",
-			description: "Exit the pokedex",
-			callback:    commandExit,
-		},
-	}
-	return commands
-}
 
 func cleanUserInput(userInput string) []string {
 	lowered := strings.ToLower(userInput)
@@ -74,7 +15,7 @@ func cleanUserInput(userInput string) []string {
 	return loweredWords
 }
 
-func loadPokedex(cfg *config) {
+func loadPokedex(cfg *commands.Config) {
 	reader := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -92,9 +33,9 @@ func loadPokedex(cfg *config) {
 			args = words[1:]
 		}
 
-		command, exists := getCommands()[commandName]
+		command, exists := commands.GetCommands()[commandName]
 		if exists {
-			err := command.callback(cfg, args...)
+			err := command.Callback(cfg, args...)
 			if err != nil {
 				fmt.Println(err)
 			}

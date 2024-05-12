@@ -1,4 +1,4 @@
-package main
+package commands
 
 import (
 	"errors"
@@ -6,13 +6,13 @@ import (
 	"math/rand"
 )
 
-func commandCatch(cfg *config, args ...string) error {
+func commandCatch(cfg *Config, args ...string) error {
 	if len(args) != 1 {
 		return errors.New("you must provide a pokemon name")
 	}
 
 	name := args[0]
-	pokemon, err := cfg.pokeApiClient.GetPokemon(name)
+	pokemon, err := cfg.PokeApiClient.GetPokemon(name)
 	if err != nil {
 		return err
 	}
@@ -26,6 +26,6 @@ func commandCatch(cfg *config, args ...string) error {
 
 	fmt.Printf("%s was caught!\n", pokemon.Name)
 
-	cfg.caughtPokemon[pokemon.Name] = pokemon
+	cfg.CaughtPokemon[pokemon.Name] = pokemon
 	return nil
 }

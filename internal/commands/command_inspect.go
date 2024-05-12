@@ -1,16 +1,16 @@
-package main
+package commands
 
 import (
 	"errors"
 	"fmt"
 )
 
-func commandInspect(cfg *config, args ...string) error {
+func commandInspect(cfg *Config, args ...string) error {
 	if len(args) != 1 {
 		return errors.New("you must provide a pokemon name")
 	}
 	name := args[0]
-	pokemon, ok := cfg.caughtPokemon[name]
+	pokemon, ok := cfg.CaughtPokemon[name]
 	if !ok {
 		return errors.New("you have not caught that pokemon")
 	}

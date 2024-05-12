@@ -1,17 +1,17 @@
-package main
+package commands
 
 import (
 	"errors"
 	"fmt"
 )
 
-func commandExplore(cfg *config, args ...string) error {
+func commandExplore(cfg *Config, args ...string) error {
 	if len(args) != 1 {
 		return errors.New("you must provide a location name")
 	}
 
 	name := args[0]
-	location, err := cfg.pokeApiClient.GetLocation(name)
+	location, err := cfg.PokeApiClient.GetLocation(name)
 	if err != nil {
 		return err
 	}
