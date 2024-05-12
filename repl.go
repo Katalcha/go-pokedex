@@ -54,6 +54,11 @@ func getCommands() map[string]pokedexCommand {
 			description: "Displays the previous page of locations",
 			callback:    commandMapb,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "See all the pokemon you've caught",
+			callback:    commandPokedex,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the pokedex",
