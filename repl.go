@@ -13,6 +13,7 @@ type config struct {
 	pokeApiClient        pokeApi.Client
 	nextLocationsURL     *string
 	previousLocationsURL *string
+	caughtPokemon        map[string]pokeApi.Pokemon
 }
 
 type pokedexCommand struct {
@@ -27,6 +28,11 @@ func getCommands() map[string]pokedexCommand {
 			name:        "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		"catch": {
+			name:        "catch <pokemon_name>",
+			description: "Attempt to catch a pokemon",
+			callback:    commandCatch,
 		},
 		"explore": {
 			name:        "explore",

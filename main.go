@@ -12,6 +12,7 @@ func main() {
 
 	cfg := &config{
 		pokeApiClient: pokeClient,
+		caughtPokemon: map[string]pokeApi.Pokemon{},
 	}
 
 	loadPokedex(cfg)
